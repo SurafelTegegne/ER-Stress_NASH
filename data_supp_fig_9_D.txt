@@ -1,0 +1,59 @@
+ReactomePathway	EnrichedScore	NormalizedEnrichedScore	P-value	FDR	Direction
+Immunoregulatory interactions between a Lymphoid and a non-Lymphoid cell	-0.6260	-2.0102	0.0164	0.0534	Down
+Cell surface interactions at the vascular wall	-0.6008	-1.9088	0.0000E+00	0.0605	Down
+XBP1(S) activates chaperone genes	0.7336	1.9263	0.0000E+00	0.0615	Up
+Unfolded Protein Response (UPR)	0.7336	1.8220	0.0000E+00	0.1017	Up
+IRE1alpha activates chaperones	0.7336	1.9411	0.0000E+00	0.1230	Up
+Xenobiotics	-0.7210	-1.7572	0.0161	0.1356	Down
+Cytochrome P450 - arranged by substrate type	-0.5349	-1.6000	0.0156	0.3176	Down
+Metabolism of steroids	0.4534	1.3969	0.1765	0.4034	Up
+MHC class II antigen presentation	0.5450	1.3103	0.1081	0.4073	Up
+Generic Transcription Pathway	0.4591	1.3295	0.1667	0.4126	Up
+RNA Polymerase II Transcription	0.4591	1.4220	0.1579	0.4543	Up
+Biological oxidations	-0.4039	-1.5018	0.0597	0.4654	Down
+Regulation of Insulin-like Growth Factor (IGF) transport and uptake by Insulin-like Growth Factor Binding Proteins (IGFBPs)	0.4134	1.3316	0.1591	0.4666	Up
+Degradation of the extracellular matrix	0.4810	1.2274	0.2105	0.4931	Up
+Post-translational protein phosphorylation	0.4134	1.4370	0.0588	0.5235	Up
+Response to elevated platelet cytosolic Ca2+	0.3488	0.9133	0.5000	0.6814	Up
+Fatty acid metabolism	-0.4764	-1.3457	0.1525	0.6969	Down
+Phase I - Functionalization of compounds	-0.4319	-1.3119	0.1905	0.7022	Down
+Regulation of Complement cascade	0.3707	0.9201	0.5161	0.7081	Up
+Rho GTPase cycle	0.3591	0.9589	0.5128	0.7293	Up
+GPCR downstream signalling	0.2180	0.8515	0.7353	0.7365	Up
+TCR signaling	-0.4628	-1.2648	0.1379	0.7399	Down
+Complement cascade	0.3707	0.9212	0.5366	0.7446	Up
+Signaling by Rho GTPases	0.2451	0.9616	0.5161	0.7709	Up
+Cellular responses to stress	0.2918	0.8029	0.8438	0.7747	Up
+Post-translational protein modification	0.1442	0.7536	0.8387	0.7771	Up
+Integrin cell surface interactions	-0.4608	-1.3519	0.1379	0.7944	Down
+Glycosaminoglycan metabolism	0.3566	0.9741	0.5128	0.8027	Up
+Class I MHC mediated antigen processing & presentation	0.2907	0.7573	0.7500	0.8049	Up
+Transport of bile salts and organic acids, metal ions and amine compounds	0.3847	0.9988	0.4390	0.8133	Up
+Platelet degranulation	0.3488	1.0491	0.5000	0.8221	Up
+Collagen formation	-0.3636	-0.9323	0.5323	0.8277	Down
+ABC-family proteins mediated transport	-0.4402	-1.0569	0.3485	0.8340	Down
+Phase II - Conjugation of compounds	-0.3325	-0.7909	0.7288	0.8494	Down
+RHO GTPase Effectors	-0.3100	-0.7720	0.7586	0.8518	Down
+Neutrophil degranulation	-0.1990	-0.9389	0.5769	0.8532	Down
+Signaling by VEGF	-0.3539	-0.8052	0.7424	0.8571	Down
+Axon guidance	-0.2459	-0.7054	0.8596	0.8582	Down
+Signaling by Receptor Tyrosine Kinases	-0.2569	-0.8227	0.6716	0.8605	Down
+G alpha (i) signalling events	-0.2893	-0.7391	0.7833	0.8698	Down
+Signaling by GPCR	-0.2484	-0.8732	0.6250	0.8709	Down
+Signaling by Interleukins	-0.2993	-0.8543	0.6379	0.8709	Down
+Amyloid fiber formation	-0.4363	-1.0615	0.3846	0.8751	Down
+SLC-mediated transmembrane transport	0.3067	1.0022	0.4500	0.8787	Up
+Platelet activation, signaling and aggregation	-0.2436	-0.7088	0.7692	0.8812	Down
+VEGFA-VEGFR2 Pathway	-0.3539	-0.8844	0.6000	0.8855	Down
+Cytokine Signaling in Immune system	-0.3179	-1.1866	0.2778	0.8891	Down
+Nervous system development	-0.2845	-0.8234	0.6615	0.8898	Down
+Assembly of collagen fibrils and other multimeric structures	-0.3636	-0.9389	0.5254	0.8938	Down
+Interferon Signaling	-0.3385	-0.9944	0.4561	0.9056	Down
+Metabolism of carbohydrates	-0.2155	-0.6230	0.9333	0.9112	Down
+Interferon gamma signaling	-0.3230	-0.9455	0.4833	0.9236	Down
+ECM proteoglycans	-0.4093	-1.0058	0.4074	0.9275	Down
+Adaptive Immune System	-0.2380	-1.0633	0.4304	0.9328	Down
+Metabolism of lipids	-0.2213	-0.9628	0.4848	0.9355	Down
+Innate Immune System	-0.2059	-1.0863	0.3766	0.9401	Down
+Fcgamma receptor (FCGR) dependent phagocytosis	-0.4543	-1.1105	0.3387	0.9464	Down
+Plasma lipoprotein assembly, remodeling, and clearance	-0.4833	-1.1349	0.3559	0.9561	Down
