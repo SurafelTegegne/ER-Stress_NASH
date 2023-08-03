@@ -1,0 +1,143 @@
+library(limma)
+library(edgeR)
+library(jsonlite)
+
+
+counts_file <- 'data'
+output_dir <- "output_dir"
+count_cols <- c('group1_1','group1_2','group1_3','group1_4','group2_1','group2_2','group2_3','group2_4')
+design <- matrix(c(c(0,0,0,0,1,1,1,1),c(1,1,1,1,0,0,0,0)), ncol=2, dimnames=list(
+c('group1_1','group1_2','group1_3','group1_4','group2_1','group2_2','group2_3','group2_4')))
+cont.matrix <- matrix(c(c(-1,1)), ncol=1, dimnames=list(c('MUP-uPA','MUP-uPA-doubleTrt'),c('MUP-uPA-doubleTrt')))
+export_cols <- c(c('ID','group1_1','group1_2','group1_3','group1_4','group2_1','group2_2','group2_3','group2_4'))
+
+# filter out samples that are not used in the model
+if (FALSE) {
+    # Remove columns not used in the comparison
+    use.samples <- rowSums((design %*% cont.matrix)!=0)>0
+    use.conditions <- colSums(design[use.samples,]!=0)>0
+
+    count_cols <- count_cols[use.samples,drop=F]
+    design <- design[use.samples, use.conditions,drop=F]
+    cont.matrix <- cont.matrix[use.conditions,,drop=F]
+}
+
+# fileEncoding='UTF-8-BOM' should strip the BOM marker FEFF that some windows tools add
+x<-read.delim(counts_file,
+              sep=",",
+              check.names=FALSE,
+              colClasses='character',
+              na.strings=c(),
+              skip=0,
+              fileEncoding='UTF-8-BOM'
+              )
+
+# Now re-read the first header line.  
+colnames(x) <- scan(counts_file,
+                    what="",
+                    sep=",",
+                    nlines=1,
+                    strip.white=F,
+                    quote = "\"",
+                    skip="0",
+                    fileEncoding='UTF-8-BOM'
+                    )
+
+x[,count_cols] <- apply(x[,count_cols], 2, function(v) as.numeric(v))     # Force numeric count columns
+counts <- x[, count_cols]
+
+# Keep rows based on string based filters of columns.  Rows must match all filters
+filter_rows <- fromJSON('[]')
+if (length(filter_rows)>0) {
+    keepRows <- apply(apply(filter_rows, 1, function(r) grepl(r['regexp'], x[,r['column']], perl=T, ignore.case=T)), 1, all)
+} else {
+    keepRows <- rep(TRUE, nrow(x))
+}
+
+keepMin <- apply(counts, 1, max) >= 10.0
+keepCpm <- rowSums(cpm(counts)> 0.5) >= 3                  # Keep only genes with cpm above x in at least y samples
+
+keep <- keepMin & keepCpm & keepRows
+x <- x[keep,]
+counts <- counts[keep,]
+
+
+y <- DGEList(counts=counts)
+
+y <- calcNormFactors(y, method="TMM")
+
+y <- estimateGLMCommonDisp(y,design)
+y <- estimateGLMTrendedDisp(y,design)
+y <- estimateGLMTagwiseDisp(y,design)
+
+fit <- glmFit(y,design)
+lrt <- glmLRT(fit, contrast=cont.matrix)
+
+out <- topTags(lrt, n=Inf, sort.by='none')$table
+
+lfc <- as.matrix(out[, c(1:ncol(cont.matrix))])
+colnames(lfc) <- colnames(cont.matrix)
+
+# Output with column names
+out2 <- cbind(lfc,
+              'P.Value'   = out[,'PValue'],
+              'adj.P.Val' = out[,'FDR'],
+              'AveExpr'   = out[,'logCPM'],
+              x[, export_cols] )
+
+write.csv(out2, file=paste0(output_dir, "/output.txt"), row.names=FALSE,na='')
+
+cat(
+   toJSON(list(prior_df=lrt$prior.df,
+               design=data.frame(lrt$design)
+         )),
+   file=paste0(output_dir, "/extra.json")
+)
+
+# Create plot -------------------------------------------------------------
+
+# Open file to save plot as PDF
+pdf("volcano_plot.pdf")
+
+# Set up base plot
+p <- ggplot(data = results, aes(x = logfc, y = -log10(pvalue))) +
+    geom_point(aes(colour = sig)) +
+    scale_color_manual(values = colours) +
+    theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black"),
+        legend.key = element_blank())
+
+# Add gene labels
+p <- p + geom_text_repel(data = filter(results, labels != ""), aes(label = labels),
+                         min.segment.length = 0,
+                         max.overlaps = Inf,
+                         show.legend = FALSE)
+
+# Select the top 50 differentially expressed genes
+de_genes <- results[1:50, ]
+
+# Normalize counts by library size
+norm_counts <- t(t(counts) / dge$samples$norm.factors)
+
+# Filter the counts to keep only the differentially expressed genes
+de_counts <- norm_counts[rownames(de_genes), ]
+
+# Create a color palette for the heatmap
+my_palette <- colorRampPalette(c("blue", "white", "red"))(100)
+
+# Create the heatmap
+heatmap.2(de_counts, 
+          scale = "row", 
+          Rowv = FALSE, 
+          Colv = FALSE, 
+          dendrogram = "none", 
+          trace = "none", 
+          col = my_palette, 
+          key = TRUE, 
+          keysize = 1, 
+          density.info = "none",
+          labRow = de_genes$Gene.Symbol, # Use gene symbols as row labels
+          labCol = sample_info$Sample.ID, # Use sample IDs as column labels
+          main = "Heatmap of top 50 DE genes")
